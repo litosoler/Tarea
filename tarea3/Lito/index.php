@@ -1,11 +1,15 @@
 <?php
 	include_once("class/arreglos.php");
 
+	$base = new Conexion;
+	$base->conectar();
+
+	$consultaDes = $base->ejecutar("SELECT id, nombre, apellido FROM desarrollador");
+
 	$nombre = $descripcion = $publicacion= $calificacion= $url = $tamanio = $version = $actualizacion = $icono = $desarrolador = "";
 	$cateEnvi = array();
-
-
-if (isset($_POST["enviar"])) {
+	
+	if (isset($_POST["enviar"])) {
 	 
 	  if(isset($_POST["nombre"])){
  			$nombre = $_POST["nombre"]; 
@@ -40,80 +44,29 @@ if (isset($_POST["enviar"])) {
 	  }
 	  if (isset($_POST['check'])) {
 	  	$cateEnvi = $_POST['check'];
-	  }
-	  
-
-}
+	  }  
+	}
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<title>Tarea 2</title>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Tarea 3</title>
+
+		 <!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!-- personales -->
+		<link rel="stylesheet" type="text/css" href="css/css-index.css">
 	</head>
 	<body>
-
-		<div class="container-fluid" style="background-color: #7DCCE0; padding-bottom: 15px; border-bottom: 1px solid #5D5E62">
-			<h2> Datos: </h2>
-			<div class="row">
-				<div class="col-md-3"> 
-					<label>Nombre: </label>
-					<span><?php echo $nombre;?></span>
-					<br>
-					<label>Calificacion: </label>
-					<span><?php echo $calificacion;?></span>
-					<br>
-					<label>Icono: </label>
-					<span> <?php echo $icono;?></span>
-					<br>
-					<label>Desarrollador: </label>
-					<span>
-					<?php 
-						echo ($desarrolador != 0)? $desarrolladores[$desarrolador]: "";
-					 ?>
-				    </span>
-				</div>
-				<div class="col-md-2"> 
-					<label> Descripcion:  </label>
-					<span><?php echo $descripcion;?></span>
-					<br>
-					<label>URL: </label>
-					<span><?php echo $url;?></span>
-					<br>
-					<label>Version: </label>
-					<span><?php echo $version;?></span>	
-				</div>
-				<div class="col-md-2"> 
-					<label> Publicado:  </label>
-					<span><?php echo $publicacion;?></span>
-					<br>
-					<label>Tamaño: </label>
-					<span><?php echo $tamanio;?></span>
-					<br>
-					<label> Actualizacion:  </label>
-					<span><?php echo $actualizacion;?></span>
-				</div>
-				<div class="col-sm-5">
-					<label> Categorias: </label>
-					<br>
-					<span>
-					<?php
-						for ($i=0; $i < count($cateEnvi) ; $i++) { 
-							echo $categorias[$cateEnvi[$i]]."; ";
-						}
-					?>
-					</span>
-				</div>
-
-			</div>
-		</div>
-	
+			<h1 id="titulo">Play Store</h1>
 		<div class="container-fluid">
-			<h1>Play Store</h1>
 			<div class="row">
-				<form class="form-horizontal col-xd-10 col-sm-8 col-md-6  "  action="index.php" method="post" >
+				<div class="form-horizontal col-xd-10 col-sm-8 col-md-6  ">
 
 					<div class="form-group ">
 						<label class="control-label col-sm-2" for="nombre">Nombre</label>
@@ -204,18 +157,10 @@ if (isset($_POST["enviar"])) {
 						<label class="control-label col-sm-2" for="desarrolador">Desarrollador</label>
 						<div class="col-sm-10">
 						<select name="desarrolador" class="form-control">
-							<option></option>
+							<option value="0">---selecciona uno---</option>
 							<?php
-							for ($i=1; $i <= $limite ; $i++) {
-								if (isset($_POST['desarrolador'])) {
-									if (($desarrolador == $i)) {
-										echo "<option value='$i' selected='selected'> $desarrolladores[$i] </option>";
-									}else{
-										echo "<option value='$i' > $desarrolladores[$i] </option>";
-									}
-								}else{ 
-									echo "<option value='$i'> $desarrolladores[$i] </option>";
-								}		
+							while($fila = $base->obtenerRegistro($consultaDes)){
+									echo "<option value='".$fila["id"]."'>".$fila["nombre"]." ".$fila["apellido"]."</option>";		
 							}		
 							?>
 						</select>
@@ -227,12 +172,12 @@ if (isset($_POST["enviar"])) {
 								<a href="index.php" class="btn btn-warning">Limpiar</a> 
 					      </div>
 				    </div>	
-				</form>
+				</div>
 				<div class="col-xs-2 col-sm-4 col-md-6">
 					<?php
-						for ($i=2; $i <=7; $i++) { 
+						for ($i=1; $i <=6; $i++) { 
 						$numEstrellas =rand(2,5);	
-						echo "<div class=\"well well-sm col-sm-1\">";
+						echo "<div class=\"well well-sm col-sm-4\">";
 						echo "<img src = \"img/icono$i.png\" class=\"img-responsive\">";
 						echo "<b>Aplicacion1</b>";
 						echo"<br>";

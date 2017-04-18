@@ -8,12 +8,14 @@
 	include_once("class-aplicacion.php");
 	include_once("class-libro.php");
 	include_once("class-peliculas.php");
+	include_once("class-conexion.php");
 
-
-
+	
 	$limite = 6;
 
 	$nombres=array("Acevedo Manríquez", "María Mejía", "Enrique Acevedo Ruiz", "Carolina Acosta", "Canto Tomás", "José Acosta Gámez", "Celina Aguilar", "Irma Aguilar Lemus", "María Ofelia Aguilar", "Marcela Aguilar Pérez", "Fredy Francisco Alarcón", "Salomón López", "Gerardo Pérez");
+
+
 
 	$categorias= array("Bebida y comida", "Compras", "Deporte",	"Diseño multimedi", "Educacion", "Entretenimiento",	 "Finanzas personales", "Estilo de vida", "Fotos y videos", "Gobierno y politica", "Herramientas de desarrollo",	"Libros y referencia",
 	"Medicina",	"Música",	"Navegacón y mapas",
